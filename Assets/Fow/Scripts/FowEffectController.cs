@@ -67,10 +67,7 @@ namespace Fow
 
             this.camInput = CreateCamera(camMain.transform, "FowInputCamera", 0, -100, layerInput, textureIn);
             this.camFxChain = CreateCamera(transform, "FowFxChainCamera", -10, -99, layerFxChain, textureOut);
-        }
-
-        private void Start()
-        {
+            
             Rebind();
         }
 
@@ -117,14 +114,6 @@ namespace Fow
 
             camInput.targetTexture = textureIn;
             camFxChain.targetTexture = textureOut;
-        }
-
-        private void OnValidate()
-        {
-            if (Application.isPlaying)
-            {
-                Rebind();
-            }
         }
 
         private static Vector2 EvalCamSize(Camera cam)
