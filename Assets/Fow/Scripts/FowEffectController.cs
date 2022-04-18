@@ -10,6 +10,10 @@ namespace Fow
     {
         [SerializeField]
         private float ppu = 16f;
+        [SerializeField]
+        private float offScreenCamScale = 1.1f;
+        
+        [Space]
 
         [LayerProperty]
         [SerializeField]
@@ -75,7 +79,7 @@ namespace Fow
         private void OnPreRender()
         {
             Camera camMain = Camera.main;
-            Vector2 camSize = EvalCamSize(camMain);
+            Vector2 camSize = EvalMainCamSize();
             Vector4 camRect = new Vector4(
                 camMain.transform.position.x, 
                 camMain.transform.position.y,
@@ -88,7 +92,7 @@ namespace Fow
 
         private void Update()
         {
-            Vector2 camSize = EvalCamSize(Camera.main);
+            Vector2 camSize = EvalMainCamSize();
         
             if (Math.Abs(lastCamWidth - camSize.x) > 0.01f ||
                 Math.Abs(lastCamHeight - camSize.y) > 0.01f)
@@ -102,7 +106,7 @@ namespace Fow
 
         private void Rebind()
         {
-            Vector2 camSize = EvalCamSize(Camera.main);
+            Vector2 camSize = EvalMainCamSize();
 
             int bufferWidth = Mathf.CeilToInt(camSize.x * ppu);
             int bufferHeight = Mathf.CeilToInt(camSize.y * ppu);
@@ -121,24 +125,25 @@ namespace Fow
             surfaceFxChain.transform.localScale = surfaceScale;
             surfaceOut.transform.localScale = surfaceScale;
 
-            camInput.orthographicSize = Camera.main.orthographicSize;
-            camInput.projectionMatrix = Camera.main.projectionMatrix;
+            camInput.orthographicSize = Camera.main.orthographicSize * offScreenCamScale;
+            // camInput.projectionMatrix = Camera.main.projectionMatrix;
             
-            camFxChain.orthographicSize = Camera.main.orthographicSize;
-            camFxChain.projectionMatrix = Camera.main.projectionMatrix;
+            camFxChain.orthographicSize = Camera.main.orthographicSize * offScreenCamScale;
+            // camFxChain.projectionMatrix = Camera.main.projectionMatrix;
 
             camInput.targetTexture = textureIn;
             camFxChain.targetTexture = textureOut;
         }
 
-        private static Vector2 EvalCamSize(Camera cam)
+        private Vector2 EvalMainCamSize()
         {
+            Camera cam = Camera.main;
             Vector3 bottomLeft = cam.ViewportToWorldPoint(Vector3.zero);
             Vector3 topRight = cam.ViewportToWorldPoint(Vector3.one);
 
             return new Vector2(
                 topRight.x - bottomLeft.x, 
-                topRight.y - bottomLeft.y);
+                topRight.y - bottomLeft.y) * offScreenCamScale;
         }
 
         private static Camera CreateCameraObject(Transform parent, string name, float localPozZ, int camDepth, int captureLayer, [CanBeNull] RenderTexture targetTexture)
