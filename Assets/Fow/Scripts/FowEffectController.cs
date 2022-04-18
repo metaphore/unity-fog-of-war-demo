@@ -10,8 +10,6 @@ namespace Fow
     {
         [SerializeField]
         private float ppu = 16f;
-        [SerializeField]
-        private float offScreenCamScale = 1.1f;
         
         [Space]
 
@@ -125,11 +123,11 @@ namespace Fow
             surfaceFxChain.transform.localScale = surfaceScale;
             surfaceOut.transform.localScale = surfaceScale;
 
-            camInput.orthographicSize = Camera.main.orthographicSize * offScreenCamScale;
-            // camInput.projectionMatrix = Camera.main.projectionMatrix;
-            
-            camFxChain.orthographicSize = Camera.main.orthographicSize * offScreenCamScale;
-            // camFxChain.projectionMatrix = Camera.main.projectionMatrix;
+            camInput.projectionMatrix = Camera.main.projectionMatrix;
+            camInput.orthographicSize = Camera.main.orthographicSize;
+
+            camFxChain.projectionMatrix = Camera.main.projectionMatrix;
+            camFxChain.orthographicSize = Camera.main.orthographicSize;
 
             camInput.targetTexture = textureIn;
             camFxChain.targetTexture = textureOut;
@@ -143,7 +141,7 @@ namespace Fow
 
             return new Vector2(
                 topRight.x - bottomLeft.x, 
-                topRight.y - bottomLeft.y) * offScreenCamScale;
+                topRight.y - bottomLeft.y);
         }
 
         private static Camera CreateCameraObject(Transform parent, string name, float localPozZ, int camDepth, int captureLayer, [CanBeNull] RenderTexture targetTexture)

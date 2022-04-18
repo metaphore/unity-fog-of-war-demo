@@ -93,8 +93,8 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _CamRect: {r: 2.991071, g: 0.31249976, b: 5.625, a: 10}
+    - _CamRect: {r: -0.4273367, g: 2.0886679, b: 3.00238, a: 5.6753845}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _TextureSize: {r: 0.011111111, g: 0.00625, b: 90, a: 160}
+    - _TextureSize: {r: 0.020408163, g: 0.010989011, b: 49, a: 91}
   m_BuildTextureStacks: []

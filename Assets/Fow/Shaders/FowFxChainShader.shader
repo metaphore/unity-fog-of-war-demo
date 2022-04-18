@@ -130,9 +130,8 @@ Shader "Fow/FowFxChain"
 
             fixed4 frag (v2f i) : SV_Target
             {
-                float2 pixelWorldPos = _CamRect.xy + _CamRect.zw * i.uv;
+                float2 pixelWorldPos = _CamRect.xy - _CamRect.zw * 0.5 + _CamRect.zw * i.uv;
 
-                // float2 st = i.uv * _FogDownscaleFactor;
                 float2 st = pixelWorldPos * _FogScaleFactor;
                 // st.x *= _MainTex_TexelSize.y / _MainTex_TexelSize.x;
                 
@@ -143,7 +142,6 @@ Shader "Fow/FowFxChain"
                 r.y = fbm(st + fixed2(8.3,2.8) + 0.126 * time);
                 
                 float noise = fbm(st + r);
-                // float noise = 1.0;
                 
                 fixed alpha = computeMask(i.uv);
                 
