@@ -8,8 +8,10 @@ Shader "Fow/FowFxChain"
         _MaskThreshold ("Mask Threshold", Range(0, 1)) = 0.5
         
         _FogTimeFactor ("Fog Time Factor", Float) = 100.0
-        _FogDownscaleFactor ("Fog Downscale Factor", Float) = 16.0
+        _FogScaleFactor ("Fog Scale Factor", Float) = 16.0
         _FogContrast ("Fog Contrast", Float) = 3.0
+        
+        _SmoothPixels ("Smooth Pixels", Float) = 8.0
     }
     SubShader
     {
@@ -45,6 +47,7 @@ Shader "Fow/FowFxChain"
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
+                // o.vertex = UnityPixelSnap(o.vertex);
                 o.uv = v.uv;
                 return o;
             }
@@ -57,8 +60,13 @@ Shader "Fow/FowFxChain"
             fixed _MaskThreshold;
             
             float _FogTimeFactor;
-            float _FogDownscaleFactor;
+            float _FogScaleFactor;
             fixed _FogContrast;
+
+            fixed _SmoothPixels;
+
+            float4 _CamRect;
+            float4 _TextureSize;
 
             float random(float2 st)
             {
@@ -89,8 +97,7 @@ Shader "Fow/FowFxChain"
                 // Initial values
                 float value = 0.0;
                 float amplitude = .5;
-                float frequency = 0.;
-                //
+
                 // Loop of octaves
                 for (int i = 0; i < OCTAVES; i++) {
                     value += amplitude * noise(st);
@@ -102,16 +109,16 @@ Shader "Fow/FowFxChain"
 
             fixed computeMask(float2 uv)
             {
-                const int ghostShift = 8;
-                const fixed ghostlerp = 0.25;
-                fixed shiftX = _MainTex_TexelSize.x * ghostShift;
-                fixed shiftY = _MainTex_TexelSize.y * ghostShift;
-                
+                const half ghostShift = _SmoothPixels;
+                const fixed ghostMix = 0.25;
+                half shiftX = _TextureSize.x * ghostShift;
+                half shiftY = _TextureSize.y * ghostShift;
+
                 fixed maskVal = tex2D(_MainTex, uv).r;
-                maskVal += tex2D(_MainTex, uv + fixed2(shiftX, shiftY)).r * ghostlerp;
-                maskVal += tex2D(_MainTex, uv + fixed2(-shiftX, shiftY)).r * ghostlerp;
-                maskVal += tex2D(_MainTex, uv + fixed2(shiftX, -shiftY)).r * ghostlerp;
-                maskVal += tex2D(_MainTex, uv + fixed2(-shiftX, -shiftY)).r * ghostlerp;
+                maskVal += tex2D(_MainTex, uv + fixed2(+shiftX, +shiftY)).r * ghostMix;
+                maskVal += tex2D(_MainTex, uv + fixed2(-shiftX, +shiftY)).r * ghostMix;
+                maskVal += tex2D(_MainTex, uv + fixed2(+shiftX, -shiftY)).r * ghostMix;
+                maskVal += tex2D(_MainTex, uv + fixed2(-shiftX, -shiftY)).r * ghostMix;
 
                 return maskVal;
             }
@@ -123,8 +130,11 @@ Shader "Fow/FowFxChain"
 
             fixed4 frag (v2f i) : SV_Target
             {
-                float2 st = i.uv * _FogDownscaleFactor;
-                st.x *= _MainTex_TexelSize.x / _MainTex_TexelSize.y;
+                float2 pixelWorldPos = _CamRect.xy + _CamRect.zw * i.uv;
+
+                // float2 st = i.uv * _FogDownscaleFactor;
+                float2 st = pixelWorldPos * _FogScaleFactor;
+                // st.x *= _MainTex_TexelSize.y / _MainTex_TexelSize.x;
                 
                 float time = _Time.x * _FogTimeFactor;
                 
@@ -132,7 +142,8 @@ Shader "Fow/FowFxChain"
                 r.x = fbm(st + fixed2(1.7,9.2) + 0.15 * time);
                 r.y = fbm(st + fixed2(8.3,2.8) + 0.126 * time);
                 
-                float noise = fbm(st+r);
+                float noise = fbm(st + r);
+                // float noise = 1.0;
                 
                 fixed alpha = computeMask(i.uv);
                 

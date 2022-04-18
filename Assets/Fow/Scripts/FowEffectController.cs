@@ -63,24 +63,39 @@ namespace Fow
             Camera camMain = Camera.main;
 
             this.surfaceFxChain = CreateMeshRenderer(transform, layerFxChain, "FowFxChainSurface", matFxChain);
+            this.surfaceFxChain.transform.localPosition += new Vector3(0f, 0f, 10f);
             this.surfaceOut = CreateMeshRenderer(camMain.transform, layerOutput, "FowOutputSurface", matOutput);
 
-            this.camInput = CreateCamera(camMain.transform, "FowInputCamera", 0, -100, layerInput, textureIn);
-            this.camFxChain = CreateCamera(transform, "FowFxChainCamera", -10, -99, layerFxChain, textureOut);
+            this.camInput = CreateCameraObject(camMain.transform, "FowInputCamera", 0, -100, layerInput, textureIn);
+            this.camFxChain = CreateCameraComp(this.gameObject, "FowFxChainCamera", 10, -99, layerFxChain, textureOut);
             
             Rebind();
         }
 
-        private void LateUpdate()
+        private void OnPreRender()
+        {
+            Camera camMain = Camera.main;
+            Vector2 camSize = EvalCamSize(camMain);
+            Vector4 camRect = new Vector4(
+                camMain.transform.position.x, 
+                camMain.transform.position.y,
+                camSize.x,
+                camSize.y);
+            matFxChain.SetVector("_CamRect", camRect);
+            // Much like Unity's _TexelSize, but this gets updated every frame and thus always up to date.
+            matFxChain.SetVector("_TextureSize", new Vector4(1f/textureIn.width, 1f/textureIn.height, textureIn.width, textureIn.height));
+        }
+
+        private void Update()
         {
             Vector2 camSize = EvalCamSize(Camera.main);
-
+        
             if (Math.Abs(lastCamWidth - camSize.x) > 0.01f ||
                 Math.Abs(lastCamHeight - camSize.y) > 0.01f)
             {
                 lastCamWidth = camSize.x;
                 lastCamHeight = camSize.y;
-
+        
                 Rebind();
             }
         }
@@ -126,13 +141,17 @@ namespace Fow
                 topRight.y - bottomLeft.y);
         }
 
-        private static Camera CreateCamera(Transform parent, string name, float localPozZ, int camDepth, int captureLayer, [CanBeNull] RenderTexture targetTexture)
+        private static Camera CreateCameraObject(Transform parent, string name, float localPozZ, int camDepth, int captureLayer, [CanBeNull] RenderTexture targetTexture)
         {
             GameObject go = new GameObject();
             go.name = name;
-            go.transform.SetParent(parent, false);
+            go.transform.SetParent(parent.transform, false);
             go.transform.localPosition = new Vector3(0f, 0f, localPozZ);
 
+            return CreateCameraComp(go, name, localPozZ, camDepth, captureLayer, targetTexture);
+        }
+        private static Camera CreateCameraComp(GameObject go, string name, float localPozZ, int camDepth, int captureLayer, [CanBeNull] RenderTexture targetTexture)
+        {
             Camera cam = go.AddComponent<Camera>();
             cam.clearFlags = CameraClearFlags.SolidColor;
             cam.backgroundColor = new Color(0f, 0f, 0f, 0f);

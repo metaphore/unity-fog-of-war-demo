@@ -44,6 +44,9 @@ TextureImporter:
   - first:
       213: -2985245363879759419
     second: TileSheet0_13
+  - first:
+      213: 3211251651442451928
+    second: TileSheet0_14
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -160,12 +163,12 @@ TextureImporter:
       name: TileSheet0_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 32
+        x: 1
+        y: 36
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -181,12 +184,12 @@ TextureImporter:
       name: TileSheet0_1
       rect:
         serializedVersion: 2
-        x: 16
-        y: 32
+        x: 17
+        y: 36
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -202,12 +205,12 @@ TextureImporter:
       name: TileSheet0_2
       rect:
         serializedVersion: 2
-        x: 32
-        y: 32
+        x: 33
+        y: 36
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -223,12 +226,12 @@ TextureImporter:
       name: TileSheet0_3
       rect:
         serializedVersion: 2
-        x: 48
-        y: 32
+        x: 51
+        y: 35
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -244,12 +247,12 @@ TextureImporter:
       name: TileSheet0_4
       rect:
         serializedVersion: 2
-        x: 64
-        y: 32
+        x: 67
+        y: 35
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -265,12 +268,12 @@ TextureImporter:
       name: TileSheet0_5
       rect:
         serializedVersion: 2
-        x: 0
-        y: 16
+        x: 1
+        y: 20
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -286,12 +289,12 @@ TextureImporter:
       name: TileSheet0_6
       rect:
         serializedVersion: 2
-        x: 16
-        y: 16
+        x: 17
+        y: 20
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -307,12 +310,12 @@ TextureImporter:
       name: TileSheet0_7
       rect:
         serializedVersion: 2
-        x: 32
-        y: 16
+        x: 33
+        y: 20
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -328,12 +331,12 @@ TextureImporter:
       name: TileSheet0_8
       rect:
         serializedVersion: 2
-        x: 48
-        y: 16
+        x: 51
+        y: 19
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -349,12 +352,12 @@ TextureImporter:
       name: TileSheet0_9
       rect:
         serializedVersion: 2
-        x: 64
-        y: 16
+        x: 67
+        y: 19
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -370,12 +373,12 @@ TextureImporter:
       name: TileSheet0_10
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
+        x: 1
+        y: 4
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -391,12 +394,12 @@ TextureImporter:
       name: TileSheet0_11
       rect:
         serializedVersion: 2
-        x: 16
-        y: 0
+        x: 17
+        y: 4
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -412,12 +415,12 @@ TextureImporter:
       name: TileSheet0_12
       rect:
         serializedVersion: 2
-        x: 32
-        y: 0
+        x: 33
+        y: 4
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -433,12 +436,12 @@ TextureImporter:
       name: TileSheet0_13
       rect:
         serializedVersion: 2
-        x: 48
-        y: 0
+        x: 50
+        y: 1
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

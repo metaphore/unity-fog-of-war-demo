@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    private bool isMouseDown = false;
-    
     private Vector2 lastTouch;
+
+    private int pressedMouseButton = -1;
 
     private void Awake()
     {
@@ -13,19 +13,26 @@ public class GameController : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (!isMouseDown && Input.GetMouseButtonDown(0))
+        if (pressedMouseButton < 0)
         {
-            isMouseDown = true;
-            OnTouchDown(Input.mousePosition);
+            // Test 0 and 1 mouse buttons.
+            for (int i = 0; i < 2; i++)
+            {
+                if (Input.GetMouseButtonDown(i))
+                {
+                    pressedMouseButton = i;
+                    OnTouchDown(Input.mousePosition);
+                }
+            }
         }
-        if (isMouseDown && Input.GetMouseButton(0))
+        if (pressedMouseButton >= 0 && Input.GetMouseButton(pressedMouseButton))
         {
             OnTouchDragged(Input.mousePosition);
         }
-        if (isMouseDown && !Input.GetMouseButton(0))
+        if (pressedMouseButton >= 0 && !Input.GetMouseButton(pressedMouseButton))
         {
             OnTouchUp(Input.mousePosition);
-            isMouseDown = false;
+            pressedMouseButton = -1;
         }
     }
 
@@ -40,7 +47,14 @@ public class GameController : MonoBehaviour
         Vector2 lastWorldPos = ScreenToWorld(lastTouch);
         lastTouch = screenPos;
 
-        Camera.main.transform.position += (Vector3)(lastWorldPos - worldPos);
+        if (pressedMouseButton == 0)
+        {
+            Camera.main.transform.position += (Vector3)(lastWorldPos - worldPos);
+        }
+        else if (pressedMouseButton == 1)
+        {
+            Camera.main.orthographicSize += lastWorldPos.y - worldPos.y;
+        }
     }
 
     private void OnTouchUp(Vector2 screenPos)
